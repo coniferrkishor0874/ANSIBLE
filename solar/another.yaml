@@ -1,0 +1,6 @@
+---
+ - hosts: all
+   tasks: 
+        - name: printing message
+          debug:
+                  msg: my name is {{n}}

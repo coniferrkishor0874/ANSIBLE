@@ -1,0 +1,27 @@
+---
+- name: use case of vault
+  hosts: ohio
+  
+  tasks:
+  
+        - name: adding a user
+          user:
+                  user: columbus
+                  comment: inventor of america
+          register: user 
+   	- debug:   
+        - name: installing  httpd 
+          yum:  
+                name: httpd
+                state: latest
+	  register: package
+        - name: starting a httpd
+          service: 
+                name: httpd
+                state: restarted
+	  register: service
+ 	- debug : var=user
+	- debug : var=package
+	- debug : var=service
+
+

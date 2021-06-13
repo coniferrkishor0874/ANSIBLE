@@ -1,0 +1,10 @@
+---
+ - name: use case of condition 
+   hosts: bhola
+   tasks:
+           - name: restart the service of httpd
+             service: 
+                  name: httpd
+                  state: restarted 
+                  when: ansible_:wq!
+

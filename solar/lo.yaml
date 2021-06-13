@@ -1,0 +1,16 @@
+---
+ - name: use case of loops
+   hosts: all
+   tasks:
+           - name: adding a user
+             user: 
+                  name: "{{ item.name }}"
+                  comment: "{{ item.comment }}"
+             loop:      
+                 - name: las
+                   comment: "form amrica"
+                 - name: california
+                   comment: "form america"
+                   
+                  
+...

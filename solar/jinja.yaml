@@ -1,0 +1,10 @@
+---
+ - name: use case of jinja template
+   hosts: all
+   tasks: 
+       - name: copy a file 
+         template:
+                 src: /home/jethalal/solar/temple.j2
+                 dest: /home/jethalal/pro.j2
+
+...

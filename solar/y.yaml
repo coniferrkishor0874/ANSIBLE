@@ -1,0 +1,14 @@
+---
+ - hosts: ohio1
+   tasks:
+           - name: removing {{bot}} package
+             yum: 
+                name: "{{bot}}"
+                state: absent
+             register: output
+
+           - name: printing a variable
+             debug:
+                     var: output.Remove 
+...
+                                                                              

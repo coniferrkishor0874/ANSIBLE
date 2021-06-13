@@ -1,0 +1,23 @@
+---
+ - name: configuring apache server
+   hosts: all
+   tasks: 
+     - name: installing a httpd
+       yum: 
+           name: httpd
+           state: present
+     - name: copy content to host
+       copy:
+          src: /home/jethalal/solar/delex/
+          dest: /var/www/html/
+          
+     - name: copy content to html directory
+       copy:
+          remote_src: /var/www/html/vanilla/* 
+          dest: /var/www/html/
+     - name: starting service of httpd
+       service: 
+           name: httpd
+           state: started
+
+...

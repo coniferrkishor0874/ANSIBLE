@@ -1,0 +1,9 @@
+---
+ - hosts: all
+   vars_files: 
+        - file.yaml
+         
+   tasks: 
+        - name: installing a package
+          debug:
+                  msg: my name is {{ a }} and {{b}}

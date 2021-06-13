@@ -1,0 +1,20 @@
+---
+ - name: use case of loop
+   hosts: all
+   vars: 
+        mul:
+                - httpd
+                  
+   tasks:
+           - name: install multiple package 
+             yum: 
+                name: 
+                    - httpd
+                    - autofs
+                state: latest
+           - name: restart the services
+             service: 
+                 name: "{{ item }}"  
+                 state: restarted
+             with_items: "{{ mul }}" 
+...

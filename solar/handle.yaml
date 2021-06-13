@@ -1,0 +1,20 @@
+---
+ - name: use case of handlers
+   hosts: all
+   tasks: 
+         - name: to add a user
+           user: 
+               name: cuba
+               comment: cuba
+               shell: /sbin/nologin
+         - name: to add another user
+           user: 
+                name: ice
+                comment: ice
+           failed_when: ansible_distribution == "RedHat"     
+               
+
+        
+              
+
+...

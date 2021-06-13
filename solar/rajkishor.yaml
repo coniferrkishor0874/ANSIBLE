@@ -1,0 +1,73 @@
+---
+ - name: hosting a website using a playbook
+   hosts: all
+   tasks: 
+         - name: installing a apache webserer
+           yum: 
+               name: httpd, firewalld
+               state: latest 
+
+         - name: starting service of apache
+           service: 
+               name: "{{ item }}"
+               state: started
+           loop:
+                   - httpd 
+                   - firewalld
+         - name: enabling service of apache and firewall
+           service:
+               name: "{{ item }}" 
+               enabled: yes
+           loop: 
+                   - httpd
+                   - firewalld          
+         - name: adding a port into firewall
+           firewalld:
+                 service: http
+                 permanent: yes
+                 state: enabled
+                 port: 82/tcp
+                 immediate: yes  
+         - name: creating a drectory
+           file:
+                 path: /var/www/cool
+                 state: directory
+
+         - name: copying a directory to host node
+           copy: 
+                 src: /home/jethalal/solar/delex 
+                 dest: /var/www/cool/
+                 
+         - name: creating a index file for another website
+           lineinfile: 
+                 path: /var/www/html/index.html
+                 line: hello this webiste going to work on 82 port.
+                 create: yes
+                
+         - name: copying a template file
+           template: 
+                 src: /home/jethalal/solar/mar.j2
+                 dest: /etc/httpd/conf.d/cool.conf     
+                
+           notify: 
+                    - restarting service
+         - meta: flush_handlers        
+
+         - name: creating configuration file for 82 port
+           template:
+                 src: /home/jethalal/solar/mar1.j2
+                 dest:  /etc/httpd/conf.d/simple.conf
+                 create: yes
+           notify:    
+                - restarting service
+         - meta: flush_handlers
+   handlers:  
+         - name: restarting service
+           service: 
+                 name: httpd
+                 state: restarted   
+                  
+                 
+                         
+                
+...

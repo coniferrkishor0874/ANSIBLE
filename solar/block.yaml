@@ -1,0 +1,24 @@
+---
+- name: use case of block 
+  hosts: all
+  tasks: 
+        - block:
+               - name: to restart the service
+                 service: 
+                     name: httpd
+                     state: restarted
+            
+               - name: restart the service
+                 service: 
+                      name: httpd
+                      state: restarted
+               - name: adding a user
+                 user: 
+                      name: toronto
+                      comment: toronto
+          when: 
+              - ansible_userspace_architecture == "x86_64"
+              - ansible_userspace_bits == "64"
+              - (ansible_nodename == "lightedge1" or ansible_nodename == "lightedge2")  
+
+...

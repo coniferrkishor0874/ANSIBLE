@@ -1,0 +1,46 @@
+---
+ - hosts: all
+   tasks: 
+        - name: creating a file
+          file:
+                path: /devops.txt
+                state: touch 
+                owner: root
+                group: root
+        
+        - name: write something 
+          lineinfile: 
+                path: /devops.txt
+                line: "this is ansible practise"
+
+        - name: restart the service of httpd
+          service: 
+                name: httpd
+                state: restarted
+
+        - name: install a package
+          yum: 
+                name: nfs-utils
+                state: present
+               
+        - name: making a directory
+          file: 
+                path: /data
+                state: directory 
+
+        - name: writing into file
+          lineinfile: 
+                path: /etc/exports
+                line: '/data  *(rw, sync,no_root_squash)' 
+
+        - name: start the service of nfs
+          service: 
+                name: nfs-server.service
+                state: started
+        
+
+ - hosts: localhost
+   tasks: 
+        - name: mounting process
+          mount:    
+          

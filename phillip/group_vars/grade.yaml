@@ -1,0 +1,5 @@
+newuser: hobart
+comment: australia
+package_name: autofs 
+service_name: httpd 
+file: rule

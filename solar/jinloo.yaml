@@ -1,0 +1,9 @@
+---
+ - name: use case of jinja template
+   hosts: all
+   tasks:
+         - name: copy a file
+           template:
+                 src: /home/jethalal/solar/loopjinja.j2
+                 dest: /home/jethalal/loop.j2
+

@@ -1,0 +1,11 @@
+---
+- name: use of pre-defined roles
+  hosts: all
+  vars:
+        timesync_ntp_servers:
+           - hostname: ntp1.eng.oar.net
+             iburst: yes
+           - hostname: ntp2.eng.oar.net
+             iburst: yes
+  roles:
+           - rhel-system-roles.timesync

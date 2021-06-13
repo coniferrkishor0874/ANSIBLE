@@ -1,0 +1,71 @@
+---
+ - name: hosting a website using a playbook
+   hosts: all
+   tasks: 
+         - name: installing a apache webserer
+           yum: 
+               name: "{{ item }}"
+               state: latest 
+           loop: 
+                - httpd
+                - firewalld
+
+         - name: enalbing service of apache
+           service: 
+               name: "{{ item }}"
+               state: started
+           loop:
+                   - httpd 
+                   - enabled           
+         - name: adding a port into firewall
+           firewalld:
+                 service: http
+                 permanent: yes
+                 state: enabled
+                 port: 82/tcp
+                 immediate: yes  
+         - name: copying a directory to host node
+           copy: 
+                 src: /home/jethalal/solar/delex 
+                 path: /var/www/cool/
+                 create: yes
+         - name: creating a index file for another website
+           lineinfile: 
+                 path: /var/www/html/index.html
+                 line: hello this webiste going to work on 82 port.
+                 create: yes
+                
+         - name: creating configuration file for defualt
+           lineinfile: 
+                 path: /etc/httpd/conf.d/cool.conf
+                 line: |
+                         <virtualhost {{ ansible_default_ipv4.address }}:80>
+                         documentroot /var/www/cool/delex
+                         </virtualhost>
+                 create: yes
+           notify: 
+                    - cool 82
+           meta: flush_handlers        
+
+         - name: creating configuration file for 82 port
+           lineinfile:
+                 path: /etc/httpd/conf.d/simple.conf
+                 line: |
+                          listen 82
+                          <virtualhost {{ ansible_default_ipv4.address }}:82>
+                          documentroot /var/www/html/index.html
+                          </virtualhost>        
+                 create: yes
+           notify:    
+                - cool 82
+           meta: flush_handlers
+   handlers:  
+         - name: cool 82
+           service: 
+                 name: httpd
+                 state: restarted   
+                  
+                 
+                         
+                
+...

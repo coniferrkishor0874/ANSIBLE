@@ -1,0 +1,15 @@
+---
+ - hosts: ohio2
+   gather_facts: True
+   tasks:
+           
+           - name: adding a user
+             user: 
+                  name: grooper
+                  comment: unknown
+           - name: printing a message
+             debug:
+                     msg: "{{ ansible_python.version_info.major }}"
+                          
+
+...                     

@@ -1,0 +1,32 @@
+---
+ - name: perform handler hands on
+   hosts: all
+   gather_facts: false
+   force_handlers: yes
+   tasks: 
+          - name: adding a user
+            user:
+                    name: jam
+                    comment: jam
+                    state: absent
+            notify: 
+                 - create a file       
+          - meta: flush_handlers
+
+          - name: creating a directory
+            file:
+                 path: /home/jethalal/ibm
+                 state: directory
+            notify: 
+                - restart the service
+
+   handlers: 
+                - name: restart the service
+                  service:
+                       name: httpd
+                       state: restarted
+                - name: create a file
+                  file:
+                      path: /home/jethalal/google/jam
+                      state: directory        
+...

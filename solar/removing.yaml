@@ -1,0 +1,13 @@
+---
+- name: removing apache package
+  hosts: all
+  tasks: 
+       - name: removing apache from host node
+         yum:
+                 name: httpd
+                 state: absent
+       - name: printing a message while deleting above
+         debug:
+                msg: deleted apache package from your host nodes         
+
+...

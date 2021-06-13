@@ -1,0 +1,85 @@
+---
+ - name: hosting a website using a playbook
+   hosts: all
+   tasks: 
+         - name: installing a apache webserer and firewall
+           yum: 
+               name: httpd,firewalld
+               state: latest 
+       
+         - name: enabling service of apache
+           service: 
+               name: httpd
+               state: restarted
+               enabled: yes
+         - name: enalbing service of firewall
+           service: 
+               name: firewalld
+               state: restarted
+               enabled: yes
+                 
+         - name: adding a service of httpd in firewall
+           firewalld:
+                 service: http
+                 state: enabled
+                 immediate: yes
+                 permanent: yes
+
+         - name: adding a ports
+           firewalld:
+                port: 80/tcp
+                state: enabled
+                immediate: yes  
+                permanent: yes
+         - name: adding a ports
+           firewalld:
+                port: 82/tcp
+                permanent: yes
+                state: enabled
+                immediate: yes              
+         - name: changing a port by seport
+           seport:
+                   ports: 82
+                   proto: tcp
+                   setype: http_port_t
+                   state: present
+
+         - name: creating a drectory
+           file:
+                 path: /var/www/cool
+                 state: directory
+         - name: copying a directory to host node
+           copy: 
+                 src: /home/jethalal/solar/delex 
+                 dest: /var/www/cool
+                 
+         - name: creating a index file for another website
+           lineinfile: 
+                 path: /var/www/html/index.html
+                 line: hello this webiste going to work on 82 port.
+                 create: yes   
+         - name: copying a template file
+           template: 
+                 src: /home/jethalal/solar/mar.j2
+                 dest: /etc/httpd/conf.d/cool.conf    
+           notify: 
+                    - calling service
+         - meta: flush_handlers        
+
+         - name: creating configuration file for 82 port
+           template:
+                 src: /home/jethalal/solar/mar1.j2
+                 dest:  /etc/httpd/conf.d/simple.conf       
+           notify:    
+                - calling service
+         - meta: flush_handlers
+   handlers:  
+         - name: calling service
+           service: 
+                 name: httpd
+                 state: restarted   
+                  
+                 
+                         
+                
+...

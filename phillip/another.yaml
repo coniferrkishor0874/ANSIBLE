@@ -1,0 +1,24 @@
+---
+- name: use case of variable
+  hosts: n_virginia
+  tasks:
+  
+        - name: adding a user {{ newuser }}  
+          user:
+                  user: "{{ newuser }}"
+                  comment: "{{ comment }}"
+
+        - name: installing a {{ package_name }}
+          yum:  
+                name: "{{  package_name }}"
+                state: latest
+        - name: starting a {{ service_name }}
+          service: 
+                name: httpd
+                state: restarted
+
+        - name: creating a {{ file }} for user
+          file:         
+                path: /home/{{ newuser }}/policy.txt
+                state: touch
+
