@@ -1,0 +1,16 @@
+---
+ - name: configuring docker on host node
+   hosts: all
+   tasks:
+           - name: configuring docker repository
+             yum_repository: 
+                 name: docker-repo
+                 description: repository for docker
+                 baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/stable
+                 enabled: 1
+           - name: lets install docker 
+             yum:
+                     name: docker-ce , docker-ce-cli , containerd.io
+                     state: present
+                          
+...
